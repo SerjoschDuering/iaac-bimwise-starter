@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+
+# Output files
+output/
+*.glb
+*.gltf
+*.obj
+
+# Gradio
+gradio_cached_examples/
+flagged/
+
+# Local data (keep structure, ignore large files)
+data/**/*.ifc
+!data/ifc_models/.gitkeep
