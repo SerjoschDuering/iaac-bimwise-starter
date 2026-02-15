@@ -1,295 +1,85 @@
-# IAAC AI Week - Building Compliance Platform
+# BIMwise - IFC Compliance Checker
 
-**Welcome to your startup!** 🚀
+Welcome to BIMwise. You're a startup building automated building compliance checking. Upload an IFC model, run checks against regulations, see what fails. By Friday you pitch this to investors.
 
-You're building an automated platform that checks building models (IFC files) against regulations. By Friday, you'll pitch this product to investors.
+## Setup
 
----
-
-## 📁 Project Structure
-
-```
-student-template/
-│
-├── 00_data/                      # Your data assets
-│   ├── ifc_models/              # Building models to test with
-│   │   └── 01_Duplex_Apartment.ifc
-│   └── regulations/             # Spanish building codes (9 excerpts)
-│       └── sample_regulations_es.md
-│
-├── exercises/                    # 📓 Jupyter notebooks
-│   └── 01_explore_ifc.ipynb     # Learn IFC structure
-│
-├── app/                          # 🚀 Your product
-│   ├── app_simple.py            # Simple version (text results)
-│   ├── app.py                   # Full version (3D viz)
-│   ├── README.md                # How to add checks
-│   └── src/                     # ✏️ Your code goes here
-│       ├── ifc_checker.py       # ADD YOUR CHECKS HERE
-│       └── ifc_visualizer.py    # (don't modify)
-│
-├── README.md                     # ← You are here
-└── requirements.txt              # Python dependencies
-```
-
----
-
-## 🎯 App Architecture
-
-### Day 1 Afternoon: Simple Version
-```
-┌─────────────────────────────────────┐
-│   IFC Compliance Checker            │
-├─────────────────────────────────────┤
-│                                     │
-│  [Upload IFC File] [Run Checks]    │
-│                                     │
-│  ╔═══════════════════════════════╗ │
-│  ║ Summary                       ║ │
-│  ║ ✅ Passed: 12                 ║ │
-│  ║ ❌ Failed: 3                  ║ │
-│  ║ ⚠️  Unknown: 1                ║ │
-│  ║                               ║ │
-│  ║ Details                       ║ │
-│  ║ ✅ Door Width - Door #1: 900mm║ │
-│  ║ ❌ Door Width - Door #2: 700mm║ │
-│  ║ ✅ Room Area - Living: 25 m²  ║ │
-│  ║ ❌ Room Area - Bath: 7.5 m²   ║ │
-│  ╚═══════════════════════════════╝ │
-└─────────────────────────────────────┘
-
-FILE: app_simple.py
-RUN:  python app_simple.py
-```
-
-### Day 2+: Full Version with 3D
-```
-┌──────────────────────────────────────────────────────────┐
-│   IFC Compliance Checker                                 │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
-│  ┌──────────────────────┐  ┌────────────────────────┐  │
-│  │   3D Model Viewer    │  │  ╔══════════════════╗  │  │
-│  │                      │  │  ║ ✅ Passed: 12    ║  │  │
-│  │       ┌─────┐        │  │  ║ ❌ Failed: 3     ║  │  │
-│  │      ╱│░░░░░│╲       │  │  ║ ⚠️  Unknown: 1   ║  │  │
-│  │     ╱ │░RED░│ ╲      │  │  ╚══════════════════╝  │  │
-│  │    │  └─────┘  │     │  │                        │  │
-│  │    │           │     │  │  ┌──────────────────┐ │  │
-│  │    │  ┌─────┐  │     │  │  │✅ Door Width     │ │  │
-│  │    │  │GRAY │  │     │  │  │  Door #1: 900mm  │ │  │
-│  │     ╲ └─────┘ ╱      │  │  ├──────────────────┤ │  │
-│  │      ╲       ╱       │  │  │❌ Door Width     │ │  │
-│  │       ───────        │  │  │  Door #2: 700mm  │ │  │
-│  │                      │  │  ├──────────────────┤ │  │
-│  │  RED = Failed ❌     │  │  │✅ Room Area      │ │  │
-│  │  GRAY = Passed ✅    │  │  │  Living: 25 m²   │ │  │
-│  └──────────────────────┘  └────────────────────────┘  │
-│                                                          │
-│  [Upload IFC] [Run Checks] [Load Demo]                  │
-└──────────────────────────────────────────────────────────┘
-
-FILE: app.py
-RUN:  python app.py
-```
-
-**Key Difference:** Failed elements are **highlighted in RED** in the 3D model!
-
----
-
-## 🚀 Quick Start
-
-### 1. Setup (5 minutes)
-
-**Requirements:**
-- Python 3.10+
-- VS Code, Cursor, or Jupyter
-
-**Install:**
 ```bash
-# Clone repo
-git clone <repo-url>
-cd student-template
-
-# Create environment
+git clone https://github.com/SerjoschDuering/iaac-bimwise-starter.git
+cd iaac-bimwise-starter
 python3 -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
-
-# Install dependencies
 pip install -r requirements.txt
-
-# Test
-python -c "import ifcopenshell, gradio; print('✅ Ready!')"
 ```
 
-### 2. Explore IFC (Monday Morning)
+Verify: `python -c "import ifcopenshell, gradio; print('Ready')"`
 
-```bash
-jupyter notebook exercises/01_explore_ifc.ipynb
+## What's in the Repo
+
+```
+00_data/
+  ifc_models/              Duplex Apartment (14 doors, 24 windows, 57 walls)
+  regulations/
+    sample_regulations_basic.md       6 numeric checks (door width, room area, ...)
+    sample_regulations_advanced.md    4 checks that need LLM reasoning
+
+exercises/
+  01_explore_ifc.ipynb     Open an IFC, query elements, plot properties
+  02_llm_basics.ipynb      Call Gemini, system prompts
+  03_structured_output.ipynb   Get JSON from an LLM, parse it
+  04_llm_decisions.ipynb   LLM evaluates a regulation, code acts on result
+  05_pydantic_ai_agents.ipynb  Agents, tools, chains with PydanticAI
+
+app/
+  app_simple.py            Text-only results (Monday)
+  app.py                   3D viewer, failures in red (Tuesday+)
+  src/
+    ifc_checker.py         YOUR CODE GOES HERE
+    ifc_visualizer.py      Don't touch
 ```
 
-**You'll learn:**
-- What's inside an IFC file (doors, walls, spaces)
-- How to extract properties (widths, areas, heights)
-- See the building in 3D
+## The One File You Edit
 
-### 3. Build Your First Check (Monday Afternoon)
+`app/src/ifc_checker.py` -- add check functions, wire them into `run_all_checks()`.
+
+Each check returns a list of results:
+```python
+{
+    "element_id": "2O2Fr$t4X7Zf8NOew3FLOH",
+    "element_type": "IfcDoor",
+    "element_name": "Door #1",
+    "rule": "Min Door Width",
+    "requirement": ">= 800 mm",
+    "actual": "900 mm",
+    "passed": True
+}
+```
+
+Failed elements show up red in the 3D viewer.
+
+## Run the App
 
 ```bash
 cd app
-python app_simple.py
+python app_simple.py    # Monday: text results
+python app.py           # Tuesday+: 3D viewer
 ```
 
-**Then add your check to `src/ifc_checker.py`:**
+## The Week
 
-```python
-def check_stair_width(model, min_width=1.2):
-    """Check stairs are wide enough."""
-    results = []
-    stairs = model.by_type("IfcStair")
+**Mon -- Make It Work:** Explore IFC files (notebooks 01), write check functions by hand, see results in Gradio.
 
-    for stair in stairs:
-        width = get_property_value(stair, "Qto_StairBaseQuantities", "Width")
+**Tue -- Make It Talk:** Add LLM reasoning (notebooks 02-05), agree on a shared data schema across teams. Board meeting #1 drops company standards.
 
-        results.append({
-            "element_id": stair.GlobalId,
-            "element_type": "IfcStair",
-            "element_name": stair.Name or "Unnamed Stair",
-            "rule": "Stair Width",
-            "requirement": f">= {min_width} m",
-            "actual": f"{width:.2f} m" if width else "N/A",
-            "passed": width >= min_width if width else None,
-        })
+**Wed -- Make It Connect:** Deploy your agent to HuggingFace Spaces, add RAG so agents look up regulations themselves. Board meeting #2: "We need one product by Friday."
 
-    return results
-```
+**Thu -- Make It Real:** Integration sprint. Frontend + orchestrator + team agents connect. Rehearse the pitch.
 
-**Add to `run_all_checks()`:**
-```python
-all_results.extend(check_stair_width(model))
-```
+**Fri -- Present:** Pitch to investors.
 
-Refresh the app → your check runs! ✅
+## Resources
 
----
-
-## 📊 Data Flow
-
-```
-┌─────────────┐
-│ IFC File    │  (Building model uploaded by user)
-│ .ifc        │
-└──────┬──────┘
-       │
-       ▼
-┌──────────────────────────────────────┐
-│  src/ifc_checker.py                  │
-│  ────────────────────                │
-│  • Load IFC with ifcopenshell        │
-│  • Run all check functions           │
-│  • Return list of results            │
-│    [{passed: True/False, ...}, ...]  │
-└──────┬───────────────────────────────┘
-       │
-       ├──────────────┬─────────────────┐
-       ▼              ▼                 ▼
-┌─────────────┐ ┌─────────────┐ ┌──────────────┐
-│ app_simple  │ │   app.py    │ │ (Your agent) │
-│             │ │             │ │              │
-│ Text list   │ │ 3D viz with │ │ Tuesday+     │
-│ of results  │ │ red fails   │ │              │
-└─────────────┘ └─────────────┘ └──────────────┘
-```
-
----
-
-## 🗓️ Your Week
-
-### **Monday: Make It Work**
-- 📓 Notebook: Understand IFC files
-- 🔧 Build: Write compliance checks
-- 👀 See: Results in simple app
-- 🎨 Upgrade: 3D visualization
-
-### **Tuesday: Make It Talk**
-- 🤖 Add AI agent orchestration
-- 📋 Lock shared data schema
-- 🔄 Iterate on checks
-
-### **Wednesday: Make It Connect**
-- ☁️ Deploy to HuggingFace Spaces
-- 🔍 Add RAG (agent reads regulations)
-- 🏗️ Platform architecture
-
-### **Thursday: Make It Real**
-- 🔗 Integration sprint
-- ✨ Polish the product
-- 🎤 Pitch rehearsal
-
-### **Friday: Present**
-- 🎯 Demo to "investors"
-- 🚀 Show your product
-
----
-
-## 🎓 What You Modify
-
-### ✏️ YOU WRITE CODE HERE:
-- `app/src/ifc_checker.py` ← Add check functions
-
-### 🔒 DON'T MODIFY (black boxes):
-- `app.py`, `app_simple.py` ← Gradio interfaces
-- `src/ifc_visualizer.py` ← 3D export
-
-**Clean separation of concerns!** You focus on compliance logic.
-
----
-
-## 🆘 Common Issues
-
-**"Property not found"**
-→ IFC files are vendor-specific. Use fallback patterns:
-```python
-width = get_property_value(door, "Qto_DoorBaseQuantities", "Width")
-if width is None:
-    width = get_property_value(door, "PSet_DoorCommon", "Width")
-if width is None:
-    width = door.OverallWidth  # Try direct attribute
-```
-
-**"Import error"**
-→ Make sure virtual environment is activated:
-```bash
-source venv/bin/activate
-which python  # Should show venv/bin/python
-```
-
-**"Gradio won't start"**
-→ Check port 7860 is free:
-```bash
-lsof -ti:7860 | xargs kill  # Kill existing Gradio
-python app_simple.py
-```
-
----
-
-## 📚 Resources
-
-- **IFC Spec:** https://standards.buildingsmart.org/IFC/
-- **ifcopenshell:** http://ifcopenshell.org/
-- **Gradio:** https://gradio.app/docs/
-- **Online IFC Viewer:** https://ifcviewer.com (upload & explore models)
-
----
-
-## 🏢 Company Simulation
-
-**You ARE a startup.** Instructors = board. Experienced students = tech leads ("Captains").
-
-**Board meetings** = end of each day. New requirements drop. Teams adapt.
-
-**Miro** = shared workspace. Document your tools, schemas, architecture there.
-
----
-
-**Ready? Start with:** `jupyter notebook 01_monday/01_exercise/01_explore_ifc.ipynb` 🚀
+- IFC spec: https://standards.buildingsmart.org/IFC/
+- ifcopenshell: http://ifcopenshell.org/
+- Gradio: https://gradio.app/docs/
+- Online IFC viewer: https://ifcviewer.com
