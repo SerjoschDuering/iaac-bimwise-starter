@@ -216,4 +216,4 @@ with gr.Blocks(
     )
 
 if __name__ == "__main__":
-    app.launch(show_api=False)
+    app.launch()

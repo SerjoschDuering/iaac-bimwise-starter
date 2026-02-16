@@ -35,4 +35,4 @@ with gr.Blocks(title="IFC Compliance Checker") as app:
 
 
 if __name__ == "__main__":
-    app.launch(show_api=False)
+    app.launch()
