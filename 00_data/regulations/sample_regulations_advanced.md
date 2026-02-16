@@ -1,4 +1,4 @@
-# Advanced Regulations - LLM-Assisted Checks (Day 2)
+# Advanced Regulations - LLM-Assisted Checks (Day II) 
 
 These rules require an LLM to interpret spatial relationships, classify room usage (private vs. public), or evaluate geometric "potential" rather than simple attribute lookups.
 
@@ -33,3 +33,11 @@ Internal courtyards (patios) used for ventilation must generally allow the inscr
 Building code requires protective barriers (guardrails) wherever there is a drop in level greater than **55 centimeters**. However, the regulation allows for an exception based on "construction disposition": a barrier is not required if the layout makes a fall "very improbable." To automate this, the system cannot simply check the height difference; it must analyze the horizontal depth of the lower surface. For example, if a drop leads to a planter or architectural ledge that is sufficiently deep (e.g., **1 meter** or more) to catch a person or prevent them from reaching the edge, the system should interpret this as "improbable fall risk" and waive the guardrail requirement.
 
 *Source: Documento Básico SUA 1, Sección 3.1.1 and Comentario: Graderíos en descenso*
+
+---
+
+## 5. Kitchen Functional Clearance
+
+Beyond simple room area, habitable kitchens require specific functional clearance to ensure usability. The regulation mandates a clear width of **1.00 meter** between the kitchen worktop (counter) and "the rest of the equipment or walls." This requires the AI to perform a spatial analysis of the IFC model: it must identify the bounding box of the fixed furniture (IfcBuildingElementProxy or IfcFurniture) and measure the perpendicular distance to the opposing wall or island, ensuring the layout allows for actual human movement, regardless of the total room square footage.
+
+*Source: Decret 141/2012, Annex 1, Apartat 3.7.3*
