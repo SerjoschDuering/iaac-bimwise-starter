@@ -1,76 +1,60 @@
-# IFC Compliance Checker App
+# App
 
-## Structure
+Two versions. Start with the simple one.
+
+## app_simple.py — Day 1
+
+One button per check. You click it, you see the result.
 
 ```
-04_app/
-├── app_simple.py          # Day 1: Simple text results
-├── app.py                 # Day 2+: 3D visualization with failures highlighted
-└── src/
-    ├── ifc_checker.py     # ✏️ ADD YOUR CHECKS HERE
-    ├── ifc_visualizer.py  # 🔒 3D export (don't modify)
-    └── visualize.py       # 🔒 Notebook viz (don't modify)
-```
-
-## Usage
-
-### Day 1 Afternoon - Simple Version
-```bash
 python app_simple.py
 ```
-- Upload IFC file
-- See pass/fail as text list
-- **Your job:** Add checks to `src/ifc_checker.py`
 
-### Day 2+ - Full Version with 3D
-```bash
-python app.py
-```
-- Upload IFC file
-- See failures highlighted in RED in 3D model
-- Passed elements are semi-transparent gray
+### How to add a new check
 
-## Adding Your Own Checks
-
-Edit `src/ifc_checker.py` → add functions like:
+**Step 1.** Write a function in `src/ifc_checker.py`. It takes a model, returns a list of strings:
 
 ```python
-def check_stair_width(model, min_width=1.2):
+def check_window_height(model, min_height_mm=1200):
     results = []
-    stairs = model.by_type("IfcStair")
-
-    for stair in stairs:
-        # Extract width property
-        width = get_property_value(stair, "Qto_StairBaseQuantities", "Width")
-
-        # Build result
-        results.append({
-            "element_id": stair.GlobalId,
-            "element_type": "IfcStair",
-            "element_name": stair.Name or f"Stair #{stair.id()}",
-            "rule": "Stair Width",
-            "requirement": f">= {min_width} m",
-            "actual": f"{width:.2f} m" if width else "N/A",
-            "passed": width >= min_width if width else None,
-        })
-
+    for window in model.by_type("IfcWindow"):
+        height_m = window.OverallHeight
+        height_mm = round(height_m * 1000) if height_m else None
+        if height_mm and height_mm >= min_height_mm:
+            results.append(f"[PASS] {window.Name}: {height_mm} mm")
+        else:
+            results.append(f"[FAIL] {window.Name}: {height_mm} mm")
     return results
 ```
 
-Then add to `run_all_checks()`:
+**Step 2.** Open `app_simple.py`. Import your function (line 10) and add it to the CHECKS list (line 14):
+
 ```python
-all_results.extend(check_stair_width(model))
+from ifc_checker import check_door_width, check_window_height
+
+CHECKS = [
+    ("Check Door Width", check_door_width),
+    ("Check Window Height", check_window_height),
+]
 ```
 
-## Output Schema (MANDATORY)
+**Step 3.** Restart the app. Your new button appears. Click it.
 
-Every check function must return a list of dicts with:
-- `element_id`: IFC GlobalId (str)
-- `element_type`: e.g., "IfcDoor" (str)
-- `element_name`: Human-readable name (str)
-- `rule`: What you're checking (str)
-- `requirement`: What it should be (str)
-- `actual`: What it is (str)
-- `passed`: True/False/None (bool or None)
+## app.py — Day 2+
 
-Failed elements (`passed: False`) are highlighted RED in the 3D viewer.
+3D viewer. Failed elements show in red. Don't use this until we agree on a shared data format (Tuesday).
+
+```
+python app.py
+```
+
+## Files
+
+```
+app/
+├── app_simple.py       ← Day 1: one button per check
+├── app.py              ← Day 2+: 3D viewer (don't touch yet)
+└── src/
+    ├── ifc_checker.py  ← YOUR CODE GOES HERE
+    └── ifc_visualizer.py  ← don't touch
+```
