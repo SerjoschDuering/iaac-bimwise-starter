@@ -13,7 +13,6 @@ pydantic-ai>=0.0.13
 google-genai>=1.0.0
 
 # Jupyter notebooks (optional - for exercises)
-jupyter>=1.0.0
 ipykernel>=6.0.0
 
 # Utilities
