@@ -27,18 +27,20 @@ def check_window_height(model, min_height_mm=1200):
     return results
 ```
 
-**Step 2.** Open `app_simple.py`. Import your function (line 10) and add it to the CHECKS list (line 14):
+**Step 2.** Open `app_simple.py`. Import your function (line 10):
 
 ```python
 from ifc_checker import check_door_width, check_window_height
-
-CHECKS = [
-    ("Check Door Width", check_door_width),
-    ("Check Window Height", check_window_height),
-]
 ```
 
-**Step 3.** Restart the app. Your new button appears. Click it.
+**Step 3.** Add two lines for your button (line 33):
+
+```python
+btn_window = gr.Button("Check Window Height")
+btn_window.click(fn=lambda f: run_check(check_window_height, f), inputs=[ifc_input], outputs=[output])
+```
+
+**Step 4.** Restart the app. Your new button appears. Click it.
 
 ## app.py — Day 2+
 
