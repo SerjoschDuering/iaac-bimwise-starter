@@ -4,10 +4,12 @@ Welcome to BIMwise. You're a startup building automated building compliance chec
 
 ## Setup
 
+**Requirements:** Python 3.11 (Windows users: 3.12+ has compatibility issues with gradio)
+
 ```bash
 git clone https://github.com/SerjoschDuering/iaac-bimwise-starter.git
 cd iaac-bimwise-starter
-python3 -m venv venv
+python3.11 -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```

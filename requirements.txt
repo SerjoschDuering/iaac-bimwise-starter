@@ -1,19 +1,19 @@
 # Core dependencies for IFC compliance checking
-ifcopenshell>=0.8.4
-numpy>=1.24.0
-trimesh>=4.0.0
-matplotlib>=3.7.0
+ifcopenshell
+numpy
+#trimesh
+matplotlib
 
 # Web interface and deployment
-gradio>=4.20,<4.44
+#gradio>=4.44
 
 # AI/LLM integration (added Day 2)
-pydantic>=2.0
-pydantic-ai>=0.0.13
-google-genai>=1.0.0
+#pydantic
+#pydantic-ai
+google-genai
 
 # Jupyter notebooks (optional - for exercises)
-ipykernel>=6.0.0
+ipykernel
 
 # Utilities
-python-dotenv>=1.0.0
+python-dotenv
